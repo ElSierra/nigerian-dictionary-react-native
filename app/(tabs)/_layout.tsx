@@ -1,18 +1,14 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Link, Tabs } from "expo-router";
+import { Platform, Pressable, useColorScheme } from "react-native";
 
-import Colors from '../../constants/Colors';
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import Colors from "../../constants/Colors";
+import {
+  HistoryIcon,
+  HomeIcon,
+  SearchIcon,
+  StarredIcon,
+} from "../../components/Icon";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -20,34 +16,62 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarStyle: {
+          height: Platform.select({ ios: 75, android: 70 }),
+          paddingBottom: 20,
+          elevation: 0,
+          paddingTop: 10,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: "Home",
+          headerShown: false,
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: Colors[colorScheme ?? "light"].headerText,
+          },
+          headerStyle: {
+            backgroundColor: "#008751",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+
+          tabBarIcon: ({ color, size }) => (
+            <HomeIcon color={color} size={size - 5} />
+          ),
+         
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <SearchIcon size={size - 5} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="starred"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Starred",
+          tabBarIcon: ({ color, size }) => (
+            <StarredIcon size={size - 5} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: "History",
+          tabBarIcon: ({ color, size }) => (
+            <HistoryIcon size={size - 5} color={color} />
+          ),
         }}
       />
     </Tabs>
