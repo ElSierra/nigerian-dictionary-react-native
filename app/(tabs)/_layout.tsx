@@ -15,8 +15,10 @@ export default function TabLayout() {
 
   return (
     <Tabs
+   
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+        tabBarActiveTintColor:"white",
         tabBarStyle: {
           height: Platform.select({ ios: 75, android: 70 }),
           paddingBottom: 20,
@@ -27,9 +29,11 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name="index"
+        
         options={{
+        
           title: "Home",
-          headerShown: false,
+          
           headerTitleAlign: "center",
           headerTitleStyle: {
             color: Colors[colorScheme ?? "light"].headerText,

@@ -1,10 +1,19 @@
-import { StyleSheet, TextInput, useColorScheme } from "react-native";
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  TextInput,
+  useColorScheme,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import Colors from "../../constants/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { SearchIcon } from "../../components/Icon";
+import { BlurView } from "expo-blur";
+import WordContainer from "../../components/global/WordContainer";
+import HeaderContainer from "../../components/global/HeaderContainer";
 
 export default function TabOneScreen() {
   const colorScheme = useColorScheme();
@@ -16,57 +25,40 @@ export default function TabOneScreen() {
     backgroundColor
   );
   return (
-    <View style={[styles.container]}>
-      <StatusBar style="light" />
-      <View
-        style={{
-          paddingTop: insets.top + 20,
-          backgroundColor: "#008751",
-          width: "100%",
-          gap:20,
-          paddingBottom: 20,
-          paddingHorizontal: 10,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-        }}
+    <>
+      <ImageBackground
+        source={require("../../assets/images/background.jpg")}
+        imageStyle={{ opacity: 0.5 }}
+        style={{ flex: 1 }}
       >
-        <View style={{ backgroundColor: "#008751",width:"100%", justifyContent:"center",alignItems:"center" }}>
-          <Text
-            style={{
-              color: "#fff",
-              fontFamily: "PoppinsBold",
-              fontSize: 20,
-              includeFontPadding: false,
-            }}
-          >
-            9ja Dictionary
-          </Text>
-        </View>
-
+        <StatusBar style="light" />
+        <HeaderContainer>
         <View
-          style={{
-            backgroundColor: Colors[colorScheme ?? "light"].textInput,
-            height: 50,
-            alignItems: "center",
-            flexDirection: "row",
-            gap: 10,
-            paddingHorizontal: 20,
-            borderRadius: 20,
-          }}
-        >
-          <SearchIcon size={20} color={"#003F23"} />
-          <Text
             style={{
-              color: "#003F23",
-              fontFamily: "Poppins",
-              includeFontPadding: false,
+              backgroundColor: "#47D16300",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            Search for Word or phrase
-          </Text>
-        </View>
-      </View>
-    </View>
+            <Text
+              style={{
+                color: "#fff",
+                fontFamily: "PoppinsBold",
+                fontSize: 40,
+                height:40,
+                includeFontPadding: false,
+              }}
+            >
+          Kini
+            </Text>
+            <Text style={{fontFamily:"Poppins",color:"white"}}>What is?</Text>
+          </View>
+        </HeaderContainer>
+        <FlatList renderItem={()=><WordContainer />} contentContainerStyle={{padding:20, gap:10}} data={[0,1,2,3,4,]}/>
+     
+      </ImageBackground>
+    </>
   );
 }
 
