@@ -15,10 +15,11 @@ export default function TabLayout() {
 
   return (
     <Tabs
-   
+   sceneContainerStyle={{backgroundColor:"black"}}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor:"white",
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: Platform.select({ ios: 75, android: 70 }),
           paddingBottom: 20,

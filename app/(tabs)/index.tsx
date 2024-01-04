@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   useColorScheme,
+  useWindowDimensions,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import EditScreenInfo from "../../components/EditScreenInfo";
@@ -14,10 +15,11 @@ import { SearchIcon } from "../../components/Icon";
 import { BlurView } from "expo-blur";
 import WordContainer from "../../components/global/WordContainer";
 import HeaderContainer from "../../components/global/HeaderContainer";
+import TodayWordConatiner from "../../components/home/TodayWordContainer";
 
 export default function TabOneScreen() {
   const colorScheme = useColorScheme();
-  const insets = useSafeAreaInsets();
+  const dimensions = useWindowDimensions()
 
   const backgroundColor = Colors[colorScheme ?? "light"].background;
   console.log(
@@ -29,7 +31,8 @@ export default function TabOneScreen() {
       <ImageBackground
         source={require("../../assets/images/background.jpg")}
         imageStyle={{ opacity: 0.5 }}
-        style={{ flex: 1 }}
+        style={{ flex: 1,height:dimensions.height }}
+
       >
         <StatusBar style="light" />
         <HeaderContainer>
@@ -50,13 +53,15 @@ export default function TabOneScreen() {
                 includeFontPadding: false,
               }}
             >
-          Kini
+          Kíni
             </Text>
-            <Text style={{fontFamily:"Poppins",color:"white"}}>What is?</Text>
+            <View style={{backgroundColor:"transparent", justifyContent:"center", alignItems:"center"}}>
+              
+              <Text  style={{fontFamily:"PoppinsItalic",color:"white", fontSize:10}}>Powered by ChatGPT</Text>
+            </View>
           </View>
         </HeaderContainer>
-        <FlatList renderItem={()=><WordContainer />} contentContainerStyle={{padding:20, gap:10}} data={[0,1,2,3,4,]}/>
-     
+        <TodayWordConatiner/>
       </ImageBackground>
     </>
   );

@@ -7,14 +7,13 @@ export default function HeaderContainer({ children }: { children: ReactNode }) {
   return (
     <View
       style={{
-        paddingTop: insets.top + 20,
+        paddingTop: insets.top,
         backgroundColor: "#47D16373",
         width: "100%",
         gap: 20,
         paddingBottom: 20,
         paddingHorizontal: 10,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
+ 
       }}
     >
       <View
