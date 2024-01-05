@@ -21,8 +21,8 @@ export default function TabLayout() {
         tabBarActiveTintColor:"white",
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          height: Platform.select({ ios: 75, android: 70 }),
-          paddingBottom: 20,
+          height: Platform.select({ ios: 80, android: 70 }),
+          paddingBottom: Platform.select({ ios: 30, android: 20 }),
           elevation: 0,
           paddingTop: 10,
         },

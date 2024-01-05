@@ -19,7 +19,7 @@ import TodayWordConatiner from "../../components/home/TodayWordContainer";
 
 export default function TabOneScreen() {
   const colorScheme = useColorScheme();
-  const dimensions = useWindowDimensions()
+  const dimensions = useWindowDimensions();
 
   const backgroundColor = Colors[colorScheme ?? "light"].background;
   console.log(
@@ -31,12 +31,11 @@ export default function TabOneScreen() {
       <ImageBackground
         source={require("../../assets/images/background.jpg")}
         imageStyle={{ opacity: 0.5 }}
-        style={{ flex: 1,height:dimensions.height }}
-
+        style={{ flex: 1, height: dimensions.height }}
       >
         <StatusBar style="light" />
         <HeaderContainer>
-        <View
+          <View
             style={{
               backgroundColor: "#47D16300",
               width: "100%",
@@ -49,19 +48,33 @@ export default function TabOneScreen() {
                 color: "#fff",
                 fontFamily: "PoppinsBold",
                 fontSize: 40,
-                height:40,
+                height: 40,
                 includeFontPadding: false,
               }}
             >
-          Kíni
+              Kíni
             </Text>
-            <View style={{backgroundColor:"transparent", justifyContent:"center", alignItems:"center"}}>
-              
-              <Text  style={{fontFamily:"PoppinsItalic",color:"white", fontSize:10}}>Powered by ChatGPT</Text>
+            <View
+              style={{
+                backgroundColor: "transparent",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "PoppinsItalic",
+                  color: "white",
+                  fontSize: 10,
+                }}
+              >
+                Powered by ChatGPT
+              </Text>
             </View>
           </View>
         </HeaderContainer>
-        <TodayWordConatiner/>
+        <FlatList contentContainerStyle={{padding:20,gap:20}} renderItem={()=><TodayWordConatiner/>} data={[0,1,]}/>
+    
       </ImageBackground>
     </>
   );
