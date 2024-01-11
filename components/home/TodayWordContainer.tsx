@@ -7,7 +7,7 @@ export default function TodayWordConatiner() {
   return (
     <View
       style={{
-        backgroundColor: "#386000B3",
+        backgroundColor: "#6F6F6F80",
         gap: 10,
         overflow:"hidden",
         padding: 10,
