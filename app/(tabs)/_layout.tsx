@@ -9,6 +9,7 @@ import {
   SearchIcon,
   StarredIcon,
 } from "../../components/Icon";
+import { BlurView } from "expo-blur";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,9 +20,24 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "white",
+        tabBarBackground: () => (
+          <BlurView
+            intensity={100}
+            tint="dark"
+            style={{
+              height: Platform.select({ ios: 80, android: 70 }),
+            }}
+          />
+        ),
 
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
+          overflow: "hidden",
+          borderRadius: 20,
+          borderWidth:1,
+          borderColor:"#C9C9C900",
+          position: "absolute",
+          backgroundColor: "transparent",
           height: Platform.select({ ios: 80, android: 70 }),
           paddingBottom: Platform.select({ ios: 30, android: 20 }),
           elevation: 0,
@@ -54,6 +70,13 @@ export default function TabLayout() {
         name="search"
         options={{
           title: "Search",
+          tabBarStyle: {
+            
+            height: Platform.select({ ios: 80, android: 70 }),
+            paddingBottom: Platform.select({ ios: 30, android: 20 }),
+            elevation: 0,
+            paddingTop: 10,
+          },
           tabBarIcon: ({ color, size }) => (
             <SearchIcon size={size - 5} color={color} />
           ),

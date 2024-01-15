@@ -11,6 +11,7 @@ import HeaderContainer from "../../components/global/HeaderContainer";
 import { TextInput } from "react-native-gesture-handler";
 import { SearchIcon } from "../../components/Icon";
 import { BlurView } from "expo-blur";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import WordContainer from "../../components/global/WordContainer";
 import SearchButton from "../../components/search/SearchButton";
 import Animated, {
@@ -31,9 +32,20 @@ export default function SearchScreen() {
       transform: [{ translateY: -keyboard.height.value }],
     };
   });
+
+  const [searchText, setSearchText] = useState("");
+
+  const onHandleChange = (text: string) => {
+    setSearchText(text);
+  }
+
+  const handleSearch = () => {
+    console.log(searchText);
+  }
+
   return (
     <View
-      style={{ flex: 1,}}
+      style={{ flex: 1,paddingHorizontal:10}}
     >
       <View style={{ flex: 1 }} />
 
@@ -46,7 +58,7 @@ export default function SearchScreen() {
         ) : (
           <Animated.View
           key={'b'}
-            style={[{ padding: 20, marginBottom: 0 }]}
+            style={[{ marginBottom: 0 }]}
             entering={FadeInDown.delay(500).springify()}
             exiting={FadeOutDown.springify()}
           >
@@ -63,7 +75,9 @@ export default function SearchScreen() {
             gap: 6,
             paddingVertical: 10,
             borderRadius: 10,
-            marginTop: Platform.select({ ios: 5, android: 10 }),
+            marginTop: 10,
+            marginBottom: 10,
+            
             overflow: "hidden",
           }}
         >
@@ -74,11 +88,13 @@ export default function SearchScreen() {
               fontFamily: "Poppins",
               color: "white",
             }}
+            value={searchText}
+            onChangeText={onHandleChange}
             cursorColor={"white"}
             placeholderTextColor={"#9C9C9C"}
             placeholder="Type word or phrase"
           />
-          <SearchButton onPress={()=>{setIsLoaded(!isLoaded)}}/>
+          <SearchButton onPress={handleSearch}/>
         </BlurView>
       </Animated.View>
     </View>

@@ -12,6 +12,7 @@ export default function AnimationWithImperativeApi() {
   return (
     <LottieView
       ref={animationRef}
+      style={{height:"100%",width:"100%"}}
       source={require("../../assets/lottie/loading.json")}
     />
   );

@@ -2,11 +2,14 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { BlurView } from "expo-blur";
 import { StarredIcon } from "../Icon";
+import WrongButton from "./Wrong";
 
 export default function WordContainer() {
   const show = false
   return (
-    <View
+    <BlurView
+      intensity={100}
+      tint="dark"
       style={{
        
 
@@ -48,8 +51,9 @@ export default function WordContainer() {
         <Pressable style={{ position: "absolute", right: 0, padding: 10 }}>
           <StarredIcon size={20} color={"white"} />
         </Pressable>
+        <WrongButton/>
  </View>
-    </View>
+    </BlurView>
   );
 }
 

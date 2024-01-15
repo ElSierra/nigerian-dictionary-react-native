@@ -3,8 +3,10 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { ImageBackground, useColorScheme, useWindowDimensions } from 'react-native';
+import { ImageBackground, View, useColorScheme, useWindowDimensions } from 'react-native';
+import { enableScreens } from 'react-native-screens';
 
+enableScreens();
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -14,6 +16,13 @@ export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -58,16 +67,19 @@ function RootLayoutNav() {
 const dimensions = useWindowDimensions()
   return (
     <ThemeProvider value={DarkTheme}>
+      <QueryClientProvider client={queryClient}>
   <ImageBackground
       source={require("../assets/images/background.jpg")}
       imageStyle={{ opacity: 0.8 }}
-      style={{ flex: 1, height: dimensions.height }}
+      style={{ flex: 1, }}
     >
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false,   contentStyle: { backgroundColor: "transparent" }, }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
-      </ImageBackground>
+        <View style = {{flex:1,backgroundColor:"#0000009B"}}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false, contentStyle:{backgroundColor:"#0000000"}}} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          </Stack>
+        </View>
+      </ImageBackground></QueryClientProvider>
     </ThemeProvider>
   );
 }
