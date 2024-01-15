@@ -4,15 +4,31 @@ import { BlurView } from "expo-blur";
 import { StarredIcon } from "../Icon";
 import WrongButton from "./Wrong";
 
-export default function WordContainer() {
-  const show = false
+export default function WordContainer({
+  word,
+
+  origin,
+  sentence,
+  type,
+  etymology,
+  definition,
+  fullword,
+}: {
+  word: string;
+
+  origin: string;
+  sentence: string;
+  type: string;
+  etymology: string;
+  definition: string;
+  fullword: string;
+}) {
+  const show = false;
   return (
     <BlurView
       intensity={100}
       tint="dark"
       style={{
-       
-
         backgroundColor: "#676767B3",
         gap: 10,
         overflow: "hidden",
@@ -20,39 +36,58 @@ export default function WordContainer() {
         borderRadius: 20,
       }}
     >
-      
- <View>
-        <View style={{ justifyContent: "center", alignItems: "center" ,marginBottom:40}}>
-          <Text style={styles.word}>Iyanuoluwa</Text>
+    { word ? <View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 40,
+          }}
+        >
+          <Text style={styles.word}>{word}</Text>
           <View style={{ flexDirection: "row", gap: 2 }}>
             <View style={[styles.tags, { backgroundColor: "green" }]}>
-              <Text style={styles.tagsText}>Yorùbá</Text>
+              <Text style={styles.tagsText}>{origin}</Text>
             </View>
             <View style={styles.tags}>
-              <Text style={styles.tagsText}>Word</Text>
+              <Text style={styles.tagsText}>{type}</Text>
             </View>
           </View>
         </View>
         <View>
-          <Text style={[styles.meaning,]}>
-            Iyanuoluwa means 'Miracle of God' in Yoruba. It's a unisex name given
-            to children to express a miraculous blessing.
+          <Text style={[styles.meaning]}>{definition}</Text>
+          {etymology && (
+            <>
+              <Text style={{ color: "#64AB00", fontFamily: "PoppinsBold" }}>
+                Etymology:{" "}
+              </Text>
+              <Text style={[styles.meaning, { fontFamily: "PoppinsItalic" }]}>
+                <Text>{etymology}</Text>
+              </Text>
+            </>
+          )}
+          <Text style={{ color: "red", fontFamily: "PoppinsBold" }}>
+            Sentence:{" "}
           </Text>
-          <Text style={{ color: "#64AB00",fontFamily:"PoppinsBold" }}>Etymology: </Text>
           <Text style={[styles.meaning, { fontFamily: "PoppinsItalic" }]}>
-            <Text>Iyanu means miracle and oluwa means God</Text>
-          </Text>
-          <Text style={{ color: "red" ,fontFamily:"PoppinsBold"}}>Sentence: </Text>
-          <Text style={[styles.meaning, { fontFamily: "PoppinsItalic" }]}>
-            <Text>Iyanuoluwa went to the market</Text>
+            <Text>{sentence}</Text>
           </Text>
         </View>
-  
+
         <Pressable style={{ position: "absolute", right: 0, padding: 10 }}>
           <StarredIcon size={20} color={"white"} />
         </Pressable>
-        <WrongButton/>
- </View>
+        <WrongButton />
+      </View>:<Text
+      style={{
+        color: "white",
+        fontFamily: "PoppinsBold",
+        fontSize: 16,
+        textAlign: "center",
+      }}
+      >
+        No word found
+        </Text>}
     </BlurView>
   );
 }
