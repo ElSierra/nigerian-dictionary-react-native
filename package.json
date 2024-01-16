@@ -39,6 +39,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "^14.1.0",
     "react-native-tab-view": "^3.5.2",
+    "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.19.6",
     "zustand": "^4.4.7"
   },

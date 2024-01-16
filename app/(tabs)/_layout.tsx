@@ -20,16 +20,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "white",
-        tabBarBackground: () => (
-          <BlurView
-            intensity={100}
-            tint="dark"
-            style={{
-              height: Platform.select({ ios: 80, android: 70 }),
-            }}
-          />
-        ),
-
+      
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           overflow: "hidden",
@@ -37,7 +28,7 @@ export default function TabLayout() {
           borderWidth:1,
           borderColor:"#C9C9C900",
           position: "absolute",
-          backgroundColor: "transparent",
+          backgroundColor: "#121212",
           height: Platform.select({ ios: 80, android: 70 }),
           paddingBottom: Platform.select({ ios: 30, android: 20 }),
           elevation: 0,

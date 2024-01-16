@@ -21,9 +21,53 @@ import Animated, {
 } from "react-native-reanimated";
 import { useState } from "react";
 import LoadingLottie from "../../components/search/LoadingLottie";
+import { useHistoryStore, useSearchStore } from "../../store/zustand";
+import AnimatedScreen from "../../components/global/AnimatedView";
 
 export default function SearchScreen() {
+  const renderItem = ({
+    item,
+  }: {
+    item: {
+      id: string;
+      word: string;
+      origin: string;
+      sentence: string;
+      type: string;
+      etymology: string;
+      definition: string;
+      fullword: string;
+    };
+  }) => {
+    return (
+      <Animated.View
+        key={"b"}
+        style={[{ marginBottom: 0 }]}
+        entering={FadeInDown.delay(500).springify()}
+        exiting={FadeOutDown.springify()}
+      >
+        <WordContainer {...item} />
+      </Animated.View>
+    );
+  };
   const dimensions = useWindowDimensions();
-
-  return <View style={{ flex: 1 }} />;
+  const searchesList = useHistoryStore((state) => state.searches);
+  return (
+    <AnimatedScreen style={{ flex: 1 }}>
+      <FlatList
+        data={searchesList}
+        extraData={searchesList}
+        removeClippedSubviews
+        contentContainerStyle={{
+          paddingHorizontal: 10,
+          paddingBottom: 50,
+          paddingTop: 100,
+          gap: 10,
+        }}
+        keyboardShouldPersistTaps="handled"
+        inverted
+        renderItem={renderItem}
+      />
+    </AnimatedScreen>
+  );
 }

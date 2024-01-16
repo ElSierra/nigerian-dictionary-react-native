@@ -23,6 +23,7 @@ import LoadingLottie from "../../components/search/LoadingLottie";
 import  { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { useState } from "react";
 import { router } from "expo-router";
+import AnimatedScreen from "../../components/global/AnimatedView";
 
 export default function TabOneScreen() {
   const colorScheme = useColorScheme();
@@ -52,7 +53,7 @@ export default function TabOneScreen() {
     router.push("/search")
   }
   return (
-    <>
+    <AnimatedScreen>
       <StatusBar style="light" />
       <HeaderContainer>
         <View
@@ -135,7 +136,7 @@ export default function TabOneScreen() {
       <View style={{ padding: 10, flex: 1, backgroundColor: "transparent" }}>
         <TodayWordConatiner />
       </View>
-    </>
+    </AnimatedScreen>
   );
 }
 

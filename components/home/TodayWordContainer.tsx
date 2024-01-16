@@ -12,11 +12,10 @@ import { Link } from "expo-router";
 export default function TodayWordConatiner() {
   return (
     <View>
-      <BlurView
-        intensity={100}
-        tint="dark"
+      <View
+      
         style={{
-          backgroundColor: "#6F6F6F80",
+          backgroundColor: "#282828",
           gap: 10,
           overflow: "hidden",
           padding: 20,
@@ -24,7 +23,7 @@ export default function TodayWordConatiner() {
         }}
       >
         <View style={{}}>
-          <Text style={styles.word}>Iyanuoluwa</Text>
+          <Text style={styles.word}>Kini</Text>
           <View style={{ flexDirection: "row", gap: 2 }}>
             <View style={[styles.tags, { backgroundColor: "green" }]}>
               <Text style={styles.tagsText}>Yorùbá</Text>
@@ -36,21 +35,19 @@ export default function TodayWordConatiner() {
         </View>
         <View>
           <Text style={styles.meaning}>
-            Iyanuoluwa means 'Miracle of God' in Yoruba. It's a unisex name
-            given to children to express a miraculous blessing.
+          In Yoruba, 'Kini' translates to 'What' or 'What is it' in English.
           </Text>
           <Text style={[styles.meaning, { fontFamily: "PoppinsItalic" }]}>
-            <Text style={{ color: "green" }}>e: </Text>
-            <Text>Iyanu means miracle and oluwa means God</Text>
+            <Text style={{ color: "green" }}>etymology: </Text>
+            <Text>Originates from the Yoruba language in Nigeria</Text>
           </Text>
           <Text style={[styles.meaning, { fontFamily: "PoppinsItalic" }]}>
-            <Text style={{ color: "red" }}>s: </Text>
-            <Text>Iyanuoluwa went to the market</Text>
+            <Text style={{ color: "red" }}>sentence: </Text>
+            <Text>Kini won so? This means, What did they say?</Text>
           </Text>
         </View>
-        <StarButton />
-        <WrongButton />
-      </BlurView>
+        
+      </View>
       <View style={{width:"100%", alignItems:"center"}}>
         <HomeSearchButton />
       </View>
