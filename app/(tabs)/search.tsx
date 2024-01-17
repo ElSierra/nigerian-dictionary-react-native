@@ -59,7 +59,13 @@ export default function SearchScreen() {
     console.log(searchText);
     mutation.mutate(searchText);
   };
+  const [initialLoad, setInitialLoad] = useState(true);
+  console.log("🚀 ~ SearchScreen ~ initialLoad:", initialLoad)
 
+  useEffect(() => {
+    // After the initial mount, set initialLoad to false
+    setInitialLoad(false);
+  }, []); 
  
   useEffect(() => {
     if (mutation.data?.data) {
@@ -85,7 +91,7 @@ export default function SearchScreen() {
       <Animated.View
         key={"b"}
         style={[{ marginBottom: 0 }]}
-        entering={FadeInDown.delay(500).springify()}
+        entering={!initialLoad ? FadeInDown.delay(500).springify(): undefined}
         exiting={FadeOutDown.springify()}
       >
         <WordContainer {...item} />
@@ -109,7 +115,7 @@ export default function SearchScreen() {
             <View>
               {mutation.isPending&&<Animated.View
                 key={"a"}
-                entering={FadeInDown.delay(500).springify()}
+                entering={!initialLoad ? FadeInDown.delay(500).springify(): undefined}
                 exiting={FadeOutDown.springify()}
                 style={{ height: 200, alignItems: "center", width: "100%" }}
               >

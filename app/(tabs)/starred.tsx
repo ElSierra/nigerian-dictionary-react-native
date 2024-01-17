@@ -19,12 +19,18 @@ import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingLottie from "../../components/search/LoadingLottie";
 import { useHistoryStore, useSearchStore } from "../../store/zustand";
 import AnimatedScreen from "../../components/global/AnimatedView";
 
 export default function SearchScreen() {
+  const [initialLoad, setInitialLoad] = useState(true);
+  useEffect(() => {
+    // After the initial mount, set initialLoad to false
+    setInitialLoad(false);
+  }, []);
+
   const renderItem = ({
     item,
   }: {
@@ -43,7 +49,7 @@ export default function SearchScreen() {
       <Animated.View
         key={"b"}
         style={[{ marginBottom: 0 }]}
-        entering={FadeInDown.delay(500).springify()}
+        entering={!initialLoad ?FadeInDown.delay(500).springify(): undefined}
         exiting={FadeOutDown.springify()}
       >
         <WordContainer {...item} />

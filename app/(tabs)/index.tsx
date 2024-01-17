@@ -20,40 +20,49 @@ import WordContainer from "../../components/global/WordContainer";
 import HeaderContainer from "../../components/global/HeaderContainer";
 import TodayWordConatiner from "../../components/home/TodayWordContainer";
 import LoadingLottie from "../../components/search/LoadingLottie";
-import  { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { useState } from "react";
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { router } from "expo-router";
 import AnimatedScreen from "../../components/global/AnimatedView";
+import CustomBottomSheetModal from "../../components/global/CustomBottomSheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export default function TabOneScreen() {
   const colorScheme = useColorScheme();
   const dimensions = useWindowDimensions();
   const [scaleValue] = useState(new Animated.Value(1));
   const handlePressIn = () => {
-  Animated.spring(scaleValue, {
-  toValue: 0.9,
-  useNativeDriver: true,
-  }).start();
+    Animated.spring(scaleValue, {
+      toValue: 0.9,
+      useNativeDriver: true,
+    }).start();
   };
-  
+
   const handlePressOut = () => {
-  Animated.spring(scaleValue, {
-  toValue: 1,
-  tension: 100,
-  friction: 3,
-  useNativeDriver: true,
-  }).start();
+    Animated.spring(scaleValue, {
+      toValue: 1,
+      tension: 100,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
   };
   const backgroundColor = Colors[colorScheme ?? "light"].background;
   console.log(
     "🚀 ~ file: index.tsx:10 ~ TabOneScreen ~ backgroundColor:",
     backgroundColor
   );
-  const handleNavigate = ()=>{
-    router.push("/search")
-  }
+  const handleNavigate = () => {
+    router.push("/search");
+  };
+
+  
   return (
     <AnimatedScreen>
+    
       <StatusBar style="light" />
       <HeaderContainer>
         <View
@@ -65,16 +74,22 @@ export default function TabOneScreen() {
             alignItems: "center",
           }}
         >
-         <Pressable onPressIn={handlePressIn} onPressOut={handlePressOut} onPress={handleNavigate}>
+          <Pressable
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+            onPress={handleNavigate}
+          >
             <Animated.View
-              style={[{
-                backgroundColor: "transparent",
-                width: "100%",
-                transform: [{ scale: scaleValue }],
-                height: 100,
-                justifyContent: "center",
-                alignItems: "center",
-              }]}
+              style={[
+                {
+                  backgroundColor: "transparent",
+                  width: "100%",
+                  transform: [{ scale: scaleValue }],
+                  height: 100,
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              ]}
             >
               <Image
                 source={require("../../assets/images/icon.png")}
@@ -92,7 +107,7 @@ export default function TabOneScreen() {
                 <LoadingLottie />
               </View>
             </Animated.View>
-         </Pressable>
+          </Pressable>
           <View
             style={{
               backgroundColor: "#47D16300",
