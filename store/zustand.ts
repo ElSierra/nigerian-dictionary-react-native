@@ -27,24 +27,32 @@ export interface Search {
   etymology: string;
   definition: string;
   fullword: string;
+  errorMsg?: string;
 }
 interface SearchListState {
   searches: Search[];
   addSearches: (newSearches: Search) => void;
+  removeSearches: (id: string) => void;
   ClearSearches: () => void;
 }
 
 export const useSearchStore = create<SearchListState>()(
   persist(
     (set) => ({
-      searches: [],
+      searches: [], // Update the type of searches to never[]
+      removeSearches: (id: string) =>
+        set((state) => {
+          const filteredSearches = state.searches.filter(
+            (search) => search.id !== id
+          );
+          return { searches: filteredSearches };
+        }),
       addSearches: (newSearches: Search) =>
         set((state) => {
           const updatedSearchWithUUID = {
             ...newSearches,
             id: uuid.v4().toString(),
           };
-          console.log("newSearches", newSearches);
           return { searches: [updatedSearchWithUUID, ...state.searches] };
         }),
       ClearSearches: () => set(() => ({ searches: [] })),
@@ -87,6 +95,51 @@ export const useHistoryStore = create<HistoryListState>()(
     }),
     {
       name: "history",
+      storage: createJSONStorage(() => zustandStorage),
+    }
+  )
+);
+
+interface Device {
+  isHighEnd: boolean;
+  uniqueId: string;
+}
+
+interface DeviceState {
+  device: Device;
+  setDevice: (device: Device) => void;
+}
+
+export const useDeviceStore = create<DeviceState>()(
+  persist(
+    (set) => ({
+      device: { isHighEnd: false, uniqueId: "" },
+      setDevice: (device: Device) => set(() => ({ device })),
+    }),
+    {
+      name: "device",
+      storage: createJSONStorage(() => zustandStorage),
+    }
+  )
+);
+
+interface ErrorModal {
+  visible: boolean;
+  message: string;
+}
+interface ErrorModalState {
+  errorModal: ErrorModal;
+  setErrorModal: (errorModal: ErrorModal) => void;
+}
+
+export const useErrorModalStore = create<ErrorModalState>()(
+  persist(
+    (set) => ({
+      errorModal: { visible: false, message: "" },
+      setErrorModal: (errorModal: ErrorModal) => set(() => ({ errorModal })),
+    }),
+    {
+      name: "errorModal",
       storage: createJSONStorage(() => zustandStorage),
     }
   )

@@ -13,13 +13,12 @@ export default function StarButton({
   const [scaleValue] = useState(new Animated.Value(1));
   const [isStarred, setIsStarred] = useState(false);
   const history = useHistoryStore((state) => state.searches);
-  console.log("🚀 ~ history:", history)
+
   const starHistory = useHistoryStore((state) => state.addSearches);
   const starRemoveHistory = useHistoryStore((state) => state.removeSearches);
 
   useEffect(() => {
     const isStarred = history.some((item) => item.id === search?.id);
-    console.log("🚀 ~ useEffect ~ isStarred:", isStarred)
     setIsStarred(isStarred);
   }, [history]);
   const handlePress = () => {

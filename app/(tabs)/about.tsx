@@ -8,6 +8,7 @@ import {
   Animated,
   useWindowDimensions,
   Pressable,
+  ScrollView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import EditScreenInfo from "../../components/EditScreenInfo";
@@ -26,10 +27,12 @@ import {
   withSpring,
 } from "react-native-reanimated";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import AnimatedScreen from "../../components/global/AnimatedView";
 import CustomBottomSheetModal from "../../components/global/CustomBottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { ExternalLink } from "../../components/ExternalLink";
+import ContainerLink from "../../components/global/ContainerLink";
 
 export default function TabOneScreen() {
   const colorScheme = useColorScheme();
@@ -50,19 +53,13 @@ export default function TabOneScreen() {
       useNativeDriver: true,
     }).start();
   };
-  const backgroundColor = Colors[colorScheme ?? "light"].background;
-  console.log(
-    "🚀 ~ file: index.tsx:10 ~ TabOneScreen ~ backgroundColor:",
-    backgroundColor
-  );
+
   const handleNavigate = () => {
     router.push("/search");
   };
 
-  
   return (
     <AnimatedScreen>
-    
       <StatusBar style="light" />
       <HeaderContainer>
         <View
@@ -148,25 +145,43 @@ export default function TabOneScreen() {
           </View>
         </View>
       </HeaderContainer>
-      <View style={{ padding: 10, flex: 1, backgroundColor: "transparent" }}>
-       <View></View>
-      </View>
+      <ScrollView
+        style={{
+          padding: 10,
+          backgroundColor: "transparent",
+          gap: 10,
+        }}
+      >
+        <View style={{backgroundColor:"transparent",gap:10}}>
+          <View style={styles.container}>
+            <Text style={styles.text}>Developed by Isaac Ojo / Yodev</Text>
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.text}>
+              The "Kini" app, your ultimate nigerian dictionary  uses Openai GPT model to generate meanings, as such it
+              might not be always right.
+            </Text>
+          </View>
+          <ContainerLink href={"https://isaacojo.me"} text="My Portfolio" />
+          <ContainerLink href={"https://twitter.com/hojoisaac"} text="Follow me" />
+          <ContainerLink href={"https://yodev.org"} text="Yodev.org" />
+        </View>
+      </ScrollView>
     </AnimatedScreen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    padding: 10,
+    borderRadius: 10,
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: "#212121",
     alignItems: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  text: {
+    color: "white",
+    fontFamily: "Poppins",
   },
 });

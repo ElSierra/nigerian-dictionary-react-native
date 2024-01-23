@@ -51,10 +51,7 @@ export default function TabOneScreen() {
     }).start();
   };
   const backgroundColor = Colors[colorScheme ?? "light"].background;
-  console.log(
-    "🚀 ~ file: index.tsx:10 ~ TabOneScreen ~ backgroundColor:",
-    backgroundColor
-  );
+  
   const handleNavigate = () => {
     router.push("/search");
   };

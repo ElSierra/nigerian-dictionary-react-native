@@ -15,7 +15,13 @@ import WordContainer from "../../components/global/WordContainer";
 import SearchButton from "../../components/search/SearchButton";
 import Animated, {
   FadeInDown,
+  FadeInRight,
+  FadeOut,
   FadeOutDown,
+  FadeOutLeft,
+  FadeOutRight,
+  Layout,
+  SlideOutRight,
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -33,6 +39,7 @@ export default function SearchScreen() {
 
   const renderItem = ({
     item,
+    
   }: {
     item: {
       id: string;
@@ -44,25 +51,17 @@ export default function SearchScreen() {
       definition: string;
       fullword: string;
     };
+    index: number;
   }) => {
-    return (
-      <Animated.View
-        key={"b"}
-        style={[{ marginBottom: 0 }]}
-        entering={!initialLoad ?FadeInDown.delay(500).springify(): undefined}
-        exiting={FadeOutDown.springify()}
-      >
-        <WordContainer {...item} />
-      </Animated.View>
-    );
+    return <WordContainer {...item} />;
   };
-  const dimensions = useWindowDimensions();
+  
   const searchesList = useHistoryStore((state) => state.searches);
   return (
     <AnimatedScreen style={{ flex: 1 }}>
-      <FlatList
+      <Animated.FlatList
         data={searchesList}
-        extraData={searchesList}
+        itemLayoutAnimation={Layout.springify()}
         removeClippedSubviews
         contentContainerStyle={{
           paddingHorizontal: 10,
@@ -74,6 +73,7 @@ export default function SearchScreen() {
         inverted
         renderItem={renderItem}
       />
+   
     </AnimatedScreen>
   );
 }

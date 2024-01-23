@@ -9,6 +9,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import {
   ImageBackground,
+  Platform,
   View,
   useColorScheme,
   useWindowDimensions,
@@ -32,6 +33,9 @@ import {
 } from "@tanstack/react-query";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import DeviceInfo from "react-native-device-info";
+import { useDeviceStore } from "../store/zustand";
+import ErrorModal from "../components/global/ErrorModal";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +59,7 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const setDevice = useDeviceStore((state) => state.setDevice);
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -65,6 +70,18 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    const getRam = DeviceInfo.getTotalMemorySync();
+    console.log("🚀 ~ file: App.tsx:351 ~ useEffect ~ getRam:", getRam);
+    const isHighEnd =
+      (DeviceInfo.getApiLevelSync() >= 33 && getRam >= 6_442_450_944) ||
+      Platform.OS === "ios";
+    setDevice({
+      isHighEnd,
+      uniqueId: DeviceInfo.getUniqueIdSync(),
+    });
+  }, []);
 
   if (!loaded) {
     return null;
@@ -79,31 +96,24 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={DarkTheme}>
       <QueryClientProvider client={queryClient}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <BottomSheetModalProvider>
-            <ImageBackground
-              source={require("../assets/images/background.jpg")}
-              imageStyle={{ opacity: 0.8 }}
-              style={{ flex: 1 }}
-            >
-              <View style={{ flex: 1, backgroundColor: "#0000009B" }}>
-                <Stack>
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{
-                      headerShown: false,
-                      contentStyle: { backgroundColor: "#0000000" },
-                    }}
-                  />
-                  <Stack.Screen
-                    name="modal"
-                    options={{ presentation: "modal" }}
-                  />
-                </Stack>
-              </View>
-            </ImageBackground>
-          </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+        <ImageBackground
+          source={require("../assets/images/background.jpg")}
+          imageStyle={{ opacity: 0.8 }}
+          style={{ flex: 1 }}
+        >
+          <View style={{ flex: 1, backgroundColor: "#0000009B" }}>
+            <Stack>
+              <Stack.Screen
+                name="(tabs)"
+                options={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: "#0000000" },
+                }}
+              />
+              <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+            </Stack>
+          </View>
+        </ImageBackground>
       </QueryClientProvider>
     </ThemeProvider>
   );

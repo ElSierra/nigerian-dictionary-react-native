@@ -17,6 +17,7 @@ import SearchButton from "../../components/search/SearchButton";
 import Animated, {
   FadeInDown,
   FadeOutDown,
+  Layout,
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -24,24 +25,46 @@ import { useEffect, useState } from "react";
 import LoadingLottie from "../../components/search/LoadingLottie";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useSearchStore } from "../../store/zustand";
+import {
+  useDeviceStore,
+  useErrorModalStore,
+  useSearchStore,
+} from "../../store/zustand";
 import AnimatedScreen from "../../components/global/AnimatedView";
-
+import { Keyboard } from "react-native";
 export default function SearchScreen() {
   const searchesList = useSearchStore((state) => state.searches);
-  console.log("🚀 ~ SearchScreen ~ searchesList:", searchesList)
+  const device = useDeviceStore((state) => state.device);
   const addSearches = useSearchStore((state) => state.addSearches);
-  console.log("expo", process.env.EXPO_PUBLIC_API_URL);
+  const [canLoad, setCanLoad] = useState(false);
+
   const mutation = useMutation({
     mutationFn: (newSearch: string) => {
-      console.log("🚀 ~ SearchScreen ~ newSearch:", newSearch);
       return axios.post(`${process.env.EXPO_PUBLIC_API_URL}/v1/search`, {
         message: newSearch,
       });
     },
-  });
+    onSuccess: (data) => {
+      addSearches(data.data);
+    },
+    onError: (error: any) => {
+      console.log("err", error?.response?.data);
+      addSearches({
+        id: "1",
+        word: "Error",
+        origin: "Error",
+        sentence: "Error",
+        type: "Error",
+        etymology: "Error",
+        definition: "Error",
+        fullword: "Error",
+        errorMsg: error?.response?.data?.message,
+      });
 
-  console.log("response from server",mutation.data?.data);
+      Keyboard.dismiss();
+    },
+  });
+  console.log(process.env.EXPO_PUBLIC_API_URL);
   const keyboard = useAnimatedKeyboard({ isStatusBarTranslucentAndroid: true });
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -56,22 +79,20 @@ export default function SearchScreen() {
   };
 
   const handleSearch = () => {
-    console.log(searchText);
     mutation.mutate(searchText);
   };
   const [initialLoad, setInitialLoad] = useState(true);
-  console.log("🚀 ~ SearchScreen ~ initialLoad:", initialLoad)
 
   useEffect(() => {
-    // After the initial mount, set initialLoad to false
+    const delay = setTimeout(() => {
+      setCanLoad(true);
+    }, 100); // Delay of 2000 milliseconds (2 seconds)
     setInitialLoad(false);
-  }, []); 
- 
-  useEffect(() => {
-    if (mutation.data?.data) {
-      addSearches(mutation.data?.data);
-    }
-  }, [mutation.data?.data]);
+
+    return () => {
+      clearTimeout(delay); // Clear the timeout if the component unmounts before the delay completes
+    };
+  }, []);
 
   const renderItem = ({
     item,
@@ -87,78 +108,116 @@ export default function SearchScreen() {
       fullword: string;
     };
   }) => {
-    return (
-      <Animated.View
-        key={"b"}
-        style={[{ marginBottom: 0 }]}
-        entering={!initialLoad ? FadeInDown.delay(500).springify(): undefined}
-        exiting={FadeOutDown.springify()}
-      >
-        <WordContainer {...item} />
-      </Animated.View>
-    );
+    return <WordContainer {...item} />;
   };
   return (
     <AnimatedScreen style={{ flex: 1 }}>
       <Animated.View style={[translateStyle, { flex: 1 }]}>
-        <FlatList
+        <Animated.FlatList
           data={searchesList}
-          extraData={searchesList}
+          initialNumToRender={10}
+          itemLayoutAnimation={!initialLoad ? Layout.springify() : undefined}
           removeClippedSubviews
           contentContainerStyle={{
             paddingHorizontal: 10,
-            
+            paddingTop: 60,
             paddingBottom: 400,
             gap: 10,
           }}
           ListHeaderComponent={
             <View>
-              {mutation.isPending&&<Animated.View
-                key={"a"}
-                entering={!initialLoad ? FadeInDown.delay(500).springify(): undefined}
-                exiting={FadeOutDown.springify()}
-                style={{ height: 200, alignItems: "center", width: "100%" }}
-              >
-                <LoadingLottie />
-              </Animated.View>}
+              {mutation.isPending && (
+                <Animated.View
+                  key={"a"}
+                  entering={
+                    !initialLoad ? FadeInDown.delay(500).springify() : undefined
+                  }
+                  exiting={FadeOutDown.springify()}
+                  style={{ height: 200, alignItems: "center", width: "100%" }}
+                >
+                  <LoadingLottie />
+                </Animated.View>
+              )}
             </View>
           }
           keyboardShouldPersistTaps="handled"
           inverted
           renderItem={renderItem}
         />
-        <View style={{ paddingHorizontal: 10 }}>
-          <BlurView
-            style={{
-              backgroundColor: "#00000080",
 
-              width: "100%",
-              flexDirection: "row",
-              paddingHorizontal: 10,
-              gap: 6,
-              paddingVertical: 10,
-              borderRadius: 10,
-              marginTop: 10,
-              marginBottom: 10,
-
-              overflow: "hidden",
-            }}
-          >
-            <TextInput
+        <View
+          style={{
+            paddingHorizontal: 10,
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+          }}
+        >
+          {device.isHighEnd ? (
+            <BlurView
               style={{
-                flex: 1,
-                fontSize: 16,
-                fontFamily: "Poppins",
-                color: "white",
+                backgroundColor: "#00000080",
+
+                width: "100%",
+                flexDirection: "row",
+                paddingHorizontal: 10,
+                gap: 6,
+                paddingVertical: 10,
+                borderRadius: 10,
+                marginTop: 10,
+                marginBottom: 10,
+
+                overflow: "hidden",
               }}
-              value={searchText}
-              onChangeText={onHandleChange}
-              cursorColor={"white"}
-              placeholderTextColor={"#9C9C9C"}
-              placeholder="Type word or phrase"
-            />
-            <SearchButton onPress={handleSearch} />
-          </BlurView>
+            >
+              <TextInput
+                style={{
+                  flex: 1,
+                  fontSize: 16,
+                  fontFamily: "Poppins",
+                  color: "white",
+                }}
+                value={searchText}
+                onChangeText={onHandleChange}
+                cursorColor={"white"}
+                placeholderTextColor={"#9C9C9C"}
+                placeholder="Type word or phrase"
+              />
+              <SearchButton onPress={handleSearch} />
+            </BlurView>
+          ) : (
+            <View
+              style={{
+                backgroundColor: "#00000080",
+
+                width: "100%",
+                flexDirection: "row",
+                paddingHorizontal: 10,
+                gap: 6,
+                paddingVertical: 10,
+                borderRadius: 10,
+                marginTop: 10,
+                marginBottom: 10,
+
+                overflow: "hidden",
+              }}
+            >
+              <TextInput
+                style={{
+                  flex: 1,
+                  fontSize: 16,
+                  fontFamily: "Poppins",
+                  color: "white",
+                }}
+                value={searchText}
+                onChangeText={onHandleChange}
+                cursorColor={"white"}
+                placeholderTextColor={"#9C9C9C"}
+                placeholder="Type word or phrase"
+              />
+              <SearchButton onPress={handleSearch} />
+            </View>
+          )}
         </View>
       </Animated.View>
     </AnimatedScreen>
