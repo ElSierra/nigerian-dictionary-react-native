@@ -3,13 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SearchIcon, StarredIcon } from "../Icon";
 import { AntDesign } from "@expo/vector-icons";
 import { Search, useHistoryStore } from "../../store/zustand";
-export default function StarButton({
-  onPress,
-  search,
-}: {
-  onPress: () => void;
-  search: Search;
-}) {
+export default function StarButton({ search }: { search: Search }) {
   const [scaleValue] = useState(new Animated.Value(1));
   const [isStarred, setIsStarred] = useState(false);
   const history = useHistoryStore((state) => state.searches);
@@ -49,9 +43,11 @@ export default function StarButton({
     <Animated.View
       style={{
         transform: [{ scale: scaleValue }],
-        alignSelf: "flex-end",
         position: "absolute",
-        padding: 10,
+  
+        
+        right: 0,
+        padding: 5,
       }}
     >
       <Pressable
@@ -59,9 +55,6 @@ export default function StarButton({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         style={{
-          paddingVertical: 5,
-          paddingHorizontal: 10,
-          backgroundColor: "#5BAA00",
           borderRadius: 9999,
         }}
       >
@@ -69,7 +62,7 @@ export default function StarButton({
           <AntDesign
             name={isStarred ? "star" : "staro"}
             size={24}
-            color="black"
+            color="#47BBA2"
           />
         }
       </Pressable>

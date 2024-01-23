@@ -103,9 +103,18 @@ function WordContainer({
             marginBottom: 40,
           }}
         >
-          <Text selectable selectionColor={"green"} style={styles.word}>
-            {word}
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              width: "70%",
+              justifyContent: "center",
+            }}
+          >
+            <Text selectable selectionColor={"green"} style={styles.word}>
+              {word}
+            </Text>
+          </View>
           <View style={{ flexDirection: "row", gap: 2 }}>
             <View style={[styles.tags, { backgroundColor: "green" }]}>
               <Text selectionColor={"green"} selectable style={styles.tagsText}>
@@ -154,7 +163,6 @@ function WordContainer({
             <Text>{sentence}</Text>
           </Text>
         </View>
-
         <StarButton
           search={{
             word,

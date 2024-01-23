@@ -35,7 +35,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import DeviceInfo from "react-native-device-info";
 import { useDeviceStore } from "../store/zustand";
-import ErrorModal from "../components/global/ErrorModal";
 
 const queryClient = new QueryClient();
 
@@ -79,7 +78,6 @@ export default function RootLayout() {
       Platform.OS === "ios";
     setDevice({
       isHighEnd,
-      uniqueId: DeviceInfo.getUniqueIdSync(),
     });
   }, []);
 

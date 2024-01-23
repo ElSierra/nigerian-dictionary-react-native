@@ -25,13 +25,9 @@ import { useEffect, useState } from "react";
 import LoadingLottie from "../../components/search/LoadingLottie";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import {
-  useDeviceStore,
-  useErrorModalStore,
-  useSearchStore,
-} from "../../store/zustand";
+import { useDeviceStore, useSearchStore } from "../../store/zustand";
 import AnimatedScreen from "../../components/global/AnimatedView";
-import { Keyboard } from "react-native";
+
 export default function SearchScreen() {
   const searchesList = useSearchStore((state) => state.searches);
   const device = useDeviceStore((state) => state.device);
@@ -61,7 +57,7 @@ export default function SearchScreen() {
         errorMsg: error?.response?.data?.message,
       });
 
-      Keyboard.dismiss();
+     
     },
   });
   console.log(process.env.EXPO_PUBLIC_API_URL);

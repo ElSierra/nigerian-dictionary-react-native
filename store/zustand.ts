@@ -102,7 +102,6 @@ export const useHistoryStore = create<HistoryListState>()(
 
 interface Device {
   isHighEnd: boolean;
-  uniqueId: string;
 }
 
 interface DeviceState {
@@ -113,33 +112,11 @@ interface DeviceState {
 export const useDeviceStore = create<DeviceState>()(
   persist(
     (set) => ({
-      device: { isHighEnd: false, uniqueId: "" },
+      device: { isHighEnd: false},
       setDevice: (device: Device) => set(() => ({ device })),
     }),
     {
       name: "device",
-      storage: createJSONStorage(() => zustandStorage),
-    }
-  )
-);
-
-interface ErrorModal {
-  visible: boolean;
-  message: string;
-}
-interface ErrorModalState {
-  errorModal: ErrorModal;
-  setErrorModal: (errorModal: ErrorModal) => void;
-}
-
-export const useErrorModalStore = create<ErrorModalState>()(
-  persist(
-    (set) => ({
-      errorModal: { visible: false, message: "" },
-      setErrorModal: (errorModal: ErrorModal) => set(() => ({ errorModal })),
-    }),
-    {
-      name: "errorModal",
       storage: createJSONStorage(() => zustandStorage),
     }
   )
