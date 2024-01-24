@@ -183,10 +183,7 @@ function WordContainer({
   return (
     <View
       key={id}
-      style={{
-        transform:
-          Platform.OS === "android" ? [{ rotateY: "180deg" }] : undefined,
-      }}
+      
     >
       <View
         key={id}

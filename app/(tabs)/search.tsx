@@ -18,6 +18,7 @@ import Animated, {
   FadeInDown,
   FadeOutDown,
   Layout,
+  LinearTransition,
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from "react-native-reanimated";
@@ -112,7 +113,7 @@ export default function SearchScreen() {
         <Animated.FlatList
           data={searchesList}
           initialNumToRender={10}
-          itemLayoutAnimation={!initialLoad ? Layout.springify() : undefined}
+          itemLayoutAnimation={!initialLoad ? LinearTransition.springify() : undefined}
           removeClippedSubviews
           contentContainerStyle={{
             paddingHorizontal: 10,
@@ -151,6 +152,8 @@ export default function SearchScreen() {
         >
           {device.isHighEnd ? (
             <BlurView
+            experimentalBlurMethod={"dimezisBlurView"}
+              tint="dark"
               style={{
                 backgroundColor: "#00000080",
 

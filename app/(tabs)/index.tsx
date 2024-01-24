@@ -2,7 +2,8 @@ import {
   FlatList,
   ImageBackground,
   StyleSheet,
-  TextInput,
+ScrollView,
+
   Image,
   useColorScheme,
   Animated,
@@ -51,15 +52,13 @@ export default function TabOneScreen() {
     }).start();
   };
   const backgroundColor = Colors[colorScheme ?? "light"].background;
-  
+
   const handleNavigate = () => {
     router.push("/search");
   };
 
-  
   return (
     <AnimatedScreen>
-    
       <StatusBar style="light" />
       <HeaderContainer>
         <View
@@ -96,6 +95,7 @@ export default function TabOneScreen() {
                 style={{
                   backgroundColor: "#47D16300",
                   height: "200%",
+                  width: 200,
                   position: "absolute",
                   justifyContent: "center",
                   alignItems: "center",
@@ -145,9 +145,10 @@ export default function TabOneScreen() {
           </View>
         </View>
       </HeaderContainer>
-      <View style={{ padding: 10, flex: 1, backgroundColor: "transparent" }}>
+      <ScrollView style={{ padding: 10, flex: 1, backgroundColor: "transparent" }}>
         <TodayWordConatiner />
-      </View>
+   
+      </ScrollView>
     </AnimatedScreen>
   );
 }

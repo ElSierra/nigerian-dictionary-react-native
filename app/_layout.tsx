@@ -94,6 +94,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={DarkTheme}>
       <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{flex:1}}>
         <ImageBackground
           source={require("../assets/images/background.jpg")}
           imageStyle={{ opacity: 0.8 }}
@@ -108,10 +109,10 @@ function RootLayoutNav() {
                   contentStyle: { backgroundColor: "#0000000" },
                 }}
               />
-              <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+              
             </Stack>
           </View>
-        </ImageBackground>
+        </ImageBackground></GestureHandlerRootView>
       </QueryClientProvider>
     </ThemeProvider>
   );
