@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import { SearchIcon } from "../Icon";
 import { BlurView } from "expo-blur";
 import { Link } from "expo-router";
+import { useDeviceStore } from "../../store/zustand";
 
-export default function HomeSearchButton({ onPress }: { onPress: () => void }) {
+export default function HomeSearchButton() {
   const [scaleValue] = useState(new Animated.Value(1));
+  const device = useDeviceStore((state) => state.device);
   const handlePressIn = () => {
     Animated.spring(scaleValue, {
       toValue: 0.9,
@@ -26,6 +28,10 @@ export default function HomeSearchButton({ onPress }: { onPress: () => void }) {
       style={{ transform: [{ scale: scaleValue }], width: "100%" }}
     >
       <BlurView
+        experimentalBlurMethod={
+          device.isHighEnd ? "dimezisBlurView" : undefined
+        }
+        tint="dark"
         style={{
           backgroundColor: "#00000080",
 
@@ -35,23 +41,21 @@ export default function HomeSearchButton({ onPress }: { onPress: () => void }) {
           paddingVertical: 5,
           borderRadius: 10,
 
-
           marginTop: Platform.select({ ios: 5, android: 10 }),
           overflow: "hidden",
         }}
       >
-        <Link href="search" asChild>
+        <Link href="/search" asChild>
           <Pressable
-            onPress={onPress}
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
             style={{
               padding: 5,
-              width:"100%",
+              width: "100%",
               flexDirection: "row",
               alignItems: "center",
-              gap:10,
-             
+              gap: 10,
+
               borderRadius: 5,
             }}
           >
@@ -63,7 +67,7 @@ export default function HomeSearchButton({ onPress }: { onPress: () => void }) {
                 color: "white",
               }}
             >
-            Make a search Now ?
+              Make a search Now ?
             </Text>
           </Pressable>
         </Link>
